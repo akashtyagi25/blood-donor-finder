@@ -1,5 +1,15 @@
 # Blood Donor Finder App
 
+## Real-World Problem
+
+In emergencies, finding a compatible blood donor quickly can be a matter of life and death. Many people struggle to locate donors with the right blood group, especially in urgent situations or in areas with limited resources. Traditional methods—such as calling friends, family, or using social media—are slow, unreliable, and often fail to reach the right people in time.
+
+## Solution
+
+Blood Donor Finder is a mobile app that connects blood donors and recipients instantly. Recipients can send emergency alerts with their details, and only matching donors are notified and shown these requests. This targeted, real-time system increases the chances of finding a suitable donor quickly, saving lives and making the donation process more efficient and accessible for everyone.
+
+---
+
 A Flutter app to connect blood donors and recipients, built with Firebase for authentication and real-time data. The app streamlines the process of finding and donating blood in emergencies.
 
 ## Features
