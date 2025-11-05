@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import '../donor/donor_homepage.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -28,20 +29,51 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> register() async {
     setState(() { isLoading = true; errorMessage = null; });
     try {
-            final cred = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      // Get current location
+      Position? position;
+      try {
+        bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+        if (serviceEnabled) {
+          LocationPermission permission = await Geolocator.checkPermission();
+          if (permission == LocationPermission.denied) {
+            permission = await Geolocator.requestPermission();
+          }
+          if (permission != LocationPermission.denied && 
+              permission != LocationPermission.deniedForever) {
+            position = await Geolocator.getCurrentPosition();
+          }
+        }
+      } catch (e) {
+        // Location error - continue without location
+        print('Location error: $e');
+      }
+
+      final cred = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailController.text.trim(),
         password: passwordController.text.trim(),
       );
-      // Save user type and blood group to Firestore
-      await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set({
+      
+      // Save user data to Firestore
+      Map<String, dynamic> userData = {
         'name': nameController.text.trim(),
         'email': emailController.text.trim(),
         'phone': phoneController.text.trim(),
         'city': cityController.text.trim(),
         'state': stateController.text.trim(),
+        'role': isDonor ? 'donor' : 'recipient',
         'isDonor': isDonor,
         'bloodGroup': selectedBloodGroup ?? '',
-      });
+        'createdAt': FieldValue.serverTimestamp(),
+      };
+
+      // Add location if available
+      if (position != null) {
+        userData['latitude'] = position.latitude;
+        userData['longitude'] = position.longitude;
+      }
+
+      await FirebaseFirestore.instance.collection('users').doc(cred.user!.uid).set(userData);
+      
       if (mounted) {
         if (isDonor) {
           Navigator.pushReplacement(

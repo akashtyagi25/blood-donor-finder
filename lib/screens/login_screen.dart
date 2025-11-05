@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     Icon(Icons.bloodtype, color: Colors.red[700], size: 60),
                     const SizedBox(height: 12),
-                    Text('Blood Bank Finder', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red[700])),
+                    Text('Blood Donor Finder', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red[700])),
                     const SizedBox(height: 24),
                     TextField(
                       controller: emailController,
@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: isLoading ? null : login,
                         child: isLoading
                             ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
-                            : const Text('Login', style: TextStyle(fontSize: 16)),
+                            : const Text('Login', style: TextStyle(fontSize: 16,color: Colors.white)),
                       ),
                     ),
                     TextButton(

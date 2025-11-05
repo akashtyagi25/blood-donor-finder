@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'donor_alert_tile.dart';
 import 'donor_profile_page.dart';
+import '../screens/blood_bank_map_screen.dart';
 
 class DonorHomepage extends StatefulWidget {
   const DonorHomepage({Key? key}) : super(key: key);
@@ -96,6 +97,8 @@ class _DonorHomepageState extends State<DonorHomepage> {
                     },
                   ),
       ),
+      // Blood Banks Map
+      const BloodBankMapScreen(),
       // Profile
       const DonorProfilePage(),
     ];
@@ -109,7 +112,11 @@ class _DonorHomepageState extends State<DonorHomepage> {
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            label: 'Home',
+            label: 'Alerts',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_hospital),
+            label: 'Blood Banks',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

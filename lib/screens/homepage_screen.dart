@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'search_screen.dart';
 import 'donor_profile_screen.dart';
 import 'emergency_alert_screen.dart';
+import 'donors_map_screen.dart';
+import 'blood_bank_map_screen.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -59,7 +61,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Blood Bank Finder'),
+          title: const Text('Blood Donor Finder'),
           actions: [
             IconButton(
               icon: const Icon(Icons.logout),
@@ -92,15 +94,17 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           ),
                           textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
-                        child: Text('EMERGENCY'),
+                        child: Text('EMERGENCY',style: TextStyle(color: Colors.white),),
                       ),
                     ),
                   ),
                 ),
               ),
       ),
-  // Profile page (no AppBar)
-  const DonorProfileScreen(),
+      // Map page - Find Donors
+      const DonorsMapScreen(),
+      // Profile page (no AppBar)
+      const DonorProfileScreen(),
     ];
     return Scaffold(
       body: _pages[_selectedIndex],
@@ -112,6 +116,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Find Donors',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
