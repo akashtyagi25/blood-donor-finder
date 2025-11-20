@@ -50,24 +50,38 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWebOrTablet = screenWidth > 600;
+    final maxWidth = isWebOrTablet ? 450.0 : double.infinity;
+    
     return Scaffold(
       backgroundColor: Colors.red[50],
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Card(
-              elevation: 8,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.bloodtype, color: Colors.red[700], size: 60),
-                    const SizedBox(height: 12),
-                    Text('Blood Donor Finder', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red[700])),
-                    const SizedBox(height: 24),
+            padding: EdgeInsets.all(isWebOrTablet ? 48.0 : 24.0),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: EdgeInsets.all(isWebOrTablet ? 40.0 : 24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.bloodtype, color: Colors.red[700], size: isWebOrTablet ? 80 : 60),
+                        SizedBox(height: isWebOrTablet ? 16 : 12),
+                        Text(
+                          'Blood Donor Finder', 
+                          style: TextStyle(
+                            fontSize: isWebOrTablet ? 28 : 24, 
+                            fontWeight: FontWeight.bold, 
+                            color: Colors.red[700]
+                          ),
+                        ),
+                        SizedBox(height: isWebOrTablet ? 32 : 24),
                     TextField(
                       controller: emailController,
                       decoration: const InputDecoration(
@@ -105,13 +119,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             : const Text('Login', style: TextStyle(fontSize: 16,color: Colors.white)),
                       ),
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/register');
-                      },
-                      child: const Text("Don't have an account? Register"),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/register');
+                          },
+                          child: const Text("Don't have an account? Register"),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),

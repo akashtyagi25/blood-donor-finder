@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'screens/login_screen.dart';
 import 'screens/register_screen.dart';
-// import 'firebase_options.dart'; // Uncomment if using FlutterFire CLI generated options
+import 'firebase_options.dart';
 import 'screens/homepage_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform); // Use this if you have firebase_options.dart
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 

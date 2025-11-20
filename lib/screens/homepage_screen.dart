@@ -72,33 +72,90 @@ class _HomePageScreenState extends State<HomePageScreen> {
         ),
         body: isLoading
             ? const Center(child: CircularProgressIndicator())
-            : Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Center(
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 32.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const EmergencyAlertScreen()),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          padding: EdgeInsets.symmetric(vertical: 32.0),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0),
-                          ),
-                          textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            : LayoutBuilder(
+                builder: (context, constraints) {
+                  final isWebOrTablet = constraints.maxWidth > 600;
+                  final buttonMaxWidth = isWebOrTablet ? 450.0 : double.infinity;
+                  final horizontalPadding = isWebOrTablet ? 64.0 : 32.0;
+                  final verticalPadding = isWebOrTablet ? 48.0 : 32.0;
+                  final fontSize = isWebOrTablet ? 32.0 : 24.0;
+                  final iconSize = isWebOrTablet ? 40.0 : 32.0;
+                  
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(isWebOrTablet ? 48.0 : 24.0),
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: buttonMaxWidth),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            if (isWebOrTablet) ...[
+                              Icon(
+                                Icons.emergency,
+                                size: 80,
+                                color: Colors.red[700],
+                              ),
+                              const SizedBox(height: 24),
+                              Text(
+                                'Need Blood?',
+                                style: TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.red[700],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Send emergency alert to nearby donors',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                              const SizedBox(height: 32),
+                            ],
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton.icon(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const EmergencyAlertScreen()),
+                                  );
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: verticalPadding,
+                                    horizontal: horizontalPadding,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                  ),
+                                  elevation: 8,
+                                ),
+                                icon: Icon(
+                                  Icons.warning_amber_rounded,
+                                  size: iconSize,
+                                  color: Colors.white,
+                                ),
+                                label: Text(
+                                  'EMERGENCY',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: fontSize,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        child: Text('EMERGENCY',style: TextStyle(color: Colors.white),),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                },
               ),
       ),
       // Map page - Find Donors

@@ -93,24 +93,38 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isWebOrTablet = screenWidth > 600;
+    final maxWidth = isWebOrTablet ? 550.0 : double.infinity;
+    
     return Scaffold(
       backgroundColor: Colors.red[50],
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: Card(
-              elevation: 8,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-              child: Padding(
-                padding: const EdgeInsets.all(24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.bloodtype, color: Colors.red[700], size: 60),
-                    const SizedBox(height: 12),
-                    Text('Create Account', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red[700])),
-                    const SizedBox(height: 24),
+            padding: EdgeInsets.all(isWebOrTablet ? 48.0 : 24.0),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxWidth: maxWidth),
+                child: Card(
+                  elevation: 8,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+                  child: Padding(
+                    padding: EdgeInsets.all(isWebOrTablet ? 40.0 : 24.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(Icons.bloodtype, color: Colors.red[700], size: isWebOrTablet ? 80 : 60),
+                        SizedBox(height: isWebOrTablet ? 16 : 12),
+                        Text(
+                          'Create Account', 
+                          style: TextStyle(
+                            fontSize: isWebOrTablet ? 28 : 24, 
+                            fontWeight: FontWeight.bold, 
+                            color: Colors.red[700]
+                          ),
+                        ),
+                        SizedBox(height: isWebOrTablet ? 32 : 24),
                     TextField(
                       controller: nameController,
                       decoration: const InputDecoration(
@@ -303,14 +317,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
                             : const Text('Register', style: TextStyle(fontSize: 16)),
                       ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/login');
+                          },
+                          child: const Text('Already have an account? Login'),
+                        ),
+                      ],
                     ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/login');
-                      },
-                      child: const Text('Already have an account? Login'),
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
